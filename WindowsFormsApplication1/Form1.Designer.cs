@@ -206,6 +206,7 @@
             this.Controls.Add(this.downloadSpecificBtn);
             this.Controls.Add(this.downloadProgramsBtn);
             this.Controls.Add(this.exitAppBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

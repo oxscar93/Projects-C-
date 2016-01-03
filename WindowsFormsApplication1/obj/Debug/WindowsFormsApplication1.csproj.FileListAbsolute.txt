@@ -6,3 +6,12 @@ C:\Users\Maria\documents\visual studio 2015\Projects\WindowsFormsApplication1\Wi
 C:\Users\Maria\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
 C:\Users\Maria\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 C:\Users\Maria\documents\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
