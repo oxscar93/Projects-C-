@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1.Common_Objects;
+using Newtonsoft.Json;
 
 namespace WindowsFormsApplication1.Utils
 {
@@ -51,10 +52,29 @@ namespace WindowsFormsApplication1.Utils
   
         public static string ConvertProgramListToStringConfigurationFormat(IList<DownloadableProgram> programList)
         {
-            return programList
-                .Aggregate(string.Empty, (current, downloadableProgram)
-                            => current + Constants.OpenKeyConfigurationFormat + downloadableProgram.ProgramName
-                                       + Constants.Comma + downloadableProgram.DownloadLink + Constants.CloseKeyConfigurationFormat + Constants.SingleBarVertical);
+            return programList.Aggregate(string.Empty, (current, program) 
+                => current + JsonConvert.SerializeObject(program) + Constants.SingleBarVertical);
+        }
+
+        public static IList<DownloadableProgram> GetProgramsFromConfigurationString(string configurationString)
+        {
+            var stringAux = string.Empty;
+            var programList = new List<DownloadableProgram>();
+
+            foreach (var stringToDeserealize in configurationString)
+            {
+                if (stringToDeserealize != Convert.ToChar(Constants.SingleBarVertical))
+                {
+                    stringAux = stringAux + stringToDeserealize;
+                }
+                else
+                {
+                    programList.Add(JsonConvert.DeserializeObject<DownloadableProgram>(stringAux));
+                    stringAux = string.Empty;
+                }
+            }
+
+            return programList;
         }
     }
 }

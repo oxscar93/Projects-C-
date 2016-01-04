@@ -20,5 +20,17 @@ namespace WindowsFormsApplication1.Services
                     outputFile.WriteLine(configurationString);
             }
         }
+
+        public IList<DownloadableProgram> OpenConfiguration(string directoryPath)
+        {
+            var configurationString = string.Empty;
+
+            using (var reader = new StreamReader(directoryPath))
+            {
+                configurationString = reader.ReadLine();
+            }
+
+            return UtilClass.GetProgramsFromConfigurationString(configurationString);
+        }
     }
 }

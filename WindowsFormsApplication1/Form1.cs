@@ -32,6 +32,7 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             programDownloadList.DisplayMember = Constants.DisplayMemberProgramName;
+            _AddItemsToCheckedListFromConfigurationFile(@"C:\Users\Maria\Desktop\Configuration.txt");
         }
 
         private void exitAppBtn_Click(object sender, EventArgs e)
@@ -141,11 +142,20 @@ namespace WindowsFormsApplication1
         }
 
         private void _SaveConfigurationOnExit()
+        {          
+           _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList());          
+        }
+
+        private void _AddItemsToCheckedListFromConfigurationFile(string directoryPath)
         {
-            if (programDownloadList.Items.Count > 0)
+            var programsList=_appConfigurationService.OpenConfiguration(directoryPath);
+
+            foreach (var program in programsList)
             {
-                _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList());
+                programDownloadList.Items.Add(program);
             }
+
+            programDownloadList.Refresh();
         }
     }
 }
