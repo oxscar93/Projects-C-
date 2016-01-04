@@ -18,5 +18,9 @@ namespace WindowsFormsApplication1.Utils
         public static string StatusDownloading = "(Downloading..)";
         public static string StatusFinished = "(Finished.)";
         public static string StatusError = "(Error.)";
+        public static string OpenKeyConfigurationFormat = "{";
+        public static string CloseKeyConfigurationFormat = "}";
+        public static string SingleBarVertical = "|";
+        public static string Comma = ",";
     }
 }

@@ -20,7 +20,7 @@ namespace WindowsFormsApplication1
             //TODO: desing factory
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(new WebClientService(new WebClient())));
+            Application.Run(new Form1(new WebClientService(new WebClient()), new AppConfigurationService()));
         }
     }
 }

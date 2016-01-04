@@ -17,11 +17,13 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private readonly WebClientService _webClientService;
+        private readonly AppConfigurationService _appConfigurationService;
 
-        public Form1(WebClientService webClientService)
+        public Form1(WebClientService webClientService, AppConfigurationService appConfigurationService)
         {
             InitializeComponent();
             _webClientService = webClientService;
+            _appConfigurationService = appConfigurationService;
             _webClientService.RegistryDownloadProgressBar(downloadProgressBar);
             _webClientService.RegistryDownloadProgressLabel(progressLbl);
             _webClientService.RegistryDownloadableProgramsCheckedList(programDownloadList);
@@ -34,6 +36,7 @@ namespace WindowsFormsApplication1
 
         private void exitAppBtn_Click(object sender, EventArgs e)
         {
+            _SaveConfigurationOnExit();
             Application.Exit();
         }
 
@@ -91,6 +94,11 @@ namespace WindowsFormsApplication1
             downloadLinkTxt.Text = programSelected.DownloadLink;
         }
 
+        private void saveConfigurationBtn_Click(object sender, EventArgs e)
+        {
+            //TODO : implement save configuration on specific directory
+        }
+
         private void _ClearCreateProgramFields()
         {
             programNameTxt.Text = string.Empty;
@@ -129,6 +137,14 @@ namespace WindowsFormsApplication1
             while (checkedListBox.CheckedItems.Count > 0)
             {
                 checkedListBox.Items.Remove(checkedListBox.CheckedItems[0]);
+            }
+        }
+
+        private void _SaveConfigurationOnExit()
+        {
+            if (programDownloadList.Items.Count > 0)
+            {
+                _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList());
             }
         }
     }

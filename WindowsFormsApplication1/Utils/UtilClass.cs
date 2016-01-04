@@ -37,7 +37,7 @@ namespace WindowsFormsApplication1.Utils
             return directoryPathWithoutFile + Constants.DoubleBars + ParseFileFromDownloadLink(downloadLink);
         }
 
-        public static Queue<DownloadableProgram> GetProgramsFromCheckedList(CheckedListBox.CheckedItemCollection items)
+        public static Queue<DownloadableProgram> GetProgramsQueueFromCheckedListControl(CheckedListBox.CheckedItemCollection items)
         {
             var downloadLinks = new Queue<DownloadableProgram>();
 
@@ -47,7 +47,15 @@ namespace WindowsFormsApplication1.Utils
             }
 
             return downloadLinks;
-        } 
+        }
+  
+        public static string ConvertProgramListToStringConfigurationFormat(IList<DownloadableProgram> programList)
+        {
+            return programList
+                .Aggregate(string.Empty, (current, downloadableProgram)
+                            => current + Constants.OpenKeyConfigurationFormat + downloadableProgram.ProgramName
+                                       + Constants.Comma + downloadableProgram.DownloadLink + Constants.CloseKeyConfigurationFormat + Constants.SingleBarVertical);
+        }
     }
 }
 

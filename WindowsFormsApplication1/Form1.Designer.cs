@@ -30,7 +30,7 @@
         {
             this.exitAppBtn = new System.Windows.Forms.Button();
             this.downloadProgramsBtn = new System.Windows.Forms.Button();
-            this.downloadSpecificBtn = new System.Windows.Forms.Button();
+            this.saveConfigurationBtn = new System.Windows.Forms.Button();
             this.programDownloadList = new System.Windows.Forms.CheckedListBox();
             this.addProgramBtn = new System.Windows.Forms.Button();
             this.removeProgramBtn = new System.Windows.Forms.Button();
@@ -43,6 +43,7 @@
             this.downloadLinkRequiredChar = new System.Windows.Forms.Label();
             this.downloadProgressBar = new System.Windows.Forms.ProgressBar();
             this.progressLbl = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // exitAppBtn
@@ -65,15 +66,16 @@
             this.downloadProgramsBtn.UseVisualStyleBackColor = true;
             this.downloadProgramsBtn.Click += new System.EventHandler(this.downloadProgramsBtn_Click);
             // 
-            // downloadSpecificBtn
+            // saveConfigurationBtn
             // 
-            this.downloadSpecificBtn.Location = new System.Drawing.Point(142, 293);
-            this.downloadSpecificBtn.Name = "downloadSpecificBtn";
-            this.downloadSpecificBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.downloadSpecificBtn.Size = new System.Drawing.Size(152, 23);
-            this.downloadSpecificBtn.TabIndex = 2;
-            this.downloadSpecificBtn.Text = "Download specific program";
-            this.downloadSpecificBtn.UseVisualStyleBackColor = true;
+            this.saveConfigurationBtn.Location = new System.Drawing.Point(131, 293);
+            this.saveConfigurationBtn.Name = "saveConfigurationBtn";
+            this.saveConfigurationBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.saveConfigurationBtn.Size = new System.Drawing.Size(106, 23);
+            this.saveConfigurationBtn.TabIndex = 2;
+            this.saveConfigurationBtn.Text = "Save Configuration";
+            this.saveConfigurationBtn.UseVisualStyleBackColor = true;
+            this.saveConfigurationBtn.Click += new System.EventHandler(this.saveConfigurationBtn_Click);
             // 
             // programDownloadList
             // 
@@ -186,11 +188,21 @@
             this.progressLbl.TabIndex = 14;
             this.progressLbl.Text = "No files to download";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(243, 293);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(114, 23);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Open Configuration";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 377);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.progressLbl);
             this.Controls.Add(this.downloadProgressBar);
             this.Controls.Add(this.downloadLinkRequiredChar);
@@ -203,7 +215,7 @@
             this.Controls.Add(this.removeProgramBtn);
             this.Controls.Add(this.addProgramBtn);
             this.Controls.Add(this.programDownloadList);
-            this.Controls.Add(this.downloadSpecificBtn);
+            this.Controls.Add(this.saveConfigurationBtn);
             this.Controls.Add(this.downloadProgramsBtn);
             this.Controls.Add(this.exitAppBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -221,7 +233,7 @@
 
         private System.Windows.Forms.Button exitAppBtn;
         private System.Windows.Forms.Button downloadProgramsBtn;
-        private System.Windows.Forms.Button downloadSpecificBtn;
+        private System.Windows.Forms.Button saveConfigurationBtn;
         private System.Windows.Forms.CheckedListBox programDownloadList;
         private System.Windows.Forms.Button addProgramBtn;
         private System.Windows.Forms.Button removeProgramBtn;
@@ -234,6 +246,7 @@
         private System.Windows.Forms.Label downloadLinkRequiredChar;
         private System.Windows.Forms.ProgressBar downloadProgressBar;
         private System.Windows.Forms.Label progressLbl;
+        private System.Windows.Forms.Button button1;
     }
 }
 

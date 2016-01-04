@@ -46,7 +46,7 @@ namespace WindowsFormsApplication1.Services
 
         public void DownloadFilesOnSpecificDirectory(string directoryPath)
         {
-            _downloadLinks = UtilClass.GetProgramsFromCheckedList(_downloadableProgramsCheckedList.CheckedItems);
+            _downloadLinks = UtilClass.GetProgramsQueueFromCheckedListControl(_downloadableProgramsCheckedList.CheckedItems);
             _directoryPath = directoryPath;
             _DownloadFile();
         }
