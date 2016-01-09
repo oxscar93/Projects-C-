@@ -18,12 +18,14 @@ namespace WindowsFormsApplication1
     {
         private readonly WebClientService _webClientService;
         private readonly AppConfigurationService _appConfigurationService;
+        private readonly string _appCurrentDirectory;
 
         public Form1(WebClientService webClientService, AppConfigurationService appConfigurationService)
         {
             InitializeComponent();
             _webClientService = webClientService;
             _appConfigurationService = appConfigurationService;
+            _appCurrentDirectory = Application.StartupPath;
             _webClientService.RegistryDownloadProgressBar(downloadProgressBar);
             _webClientService.RegistryDownloadProgressLabel(progressLbl);
             _webClientService.RegistryDownloadableProgramsCheckedList(programDownloadList);
@@ -32,7 +34,7 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             programDownloadList.DisplayMember = Constants.DisplayMemberProgramName;
-            _AddItemsToCheckedListFromConfigurationFile(@"C:\Users\Maria\Desktop\Configuration.txt");
+            _AddItemsToCheckedListFromConfigurationFile(UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));         
         }
 
         private void exitAppBtn_Click(object sender, EventArgs e)
@@ -58,7 +60,7 @@ namespace WindowsFormsApplication1
 
         private void downloadProgramsBtn_Click(object sender, EventArgs e)
         {
-            var dialogResult = _ShowFolderDialogAndGetPath();
+            var dialogResult = _ShowFolderDialogForItemsToDownload();
 
             if ( dialogResult == null)
             {
@@ -100,6 +102,16 @@ namespace WindowsFormsApplication1
             //TODO : implement save configuration on specific directory
         }
 
+        private void openConfigurationBtn_Click(object sender, EventArgs e)
+        {
+            var directoryPath = _ShowFolderDialogOrFileDialogAndGetPath(new OpenFileDialog());
+
+            if (directoryPath != null)
+            {
+                _AddItemsToCheckedListFromConfigurationFile(directoryPath);
+            }
+        }
+
         private void _ClearCreateProgramFields()
         {
             programNameTxt.Text = string.Empty;
@@ -111,21 +123,27 @@ namespace WindowsFormsApplication1
             lblControl.Visible = txtControl.Text == string.Empty;
         }
 
-        private string _ShowFolderDialogAndGetPath()
+        private string _ShowFolderDialogForItemsToDownload()
         {
             if (programDownloadList.CheckedItems.Count == 0)
             {
                 MessageBox.Show(Constants.DialogWarningMessage);
-                return null;
+                return null; 
             }
 
-            var folderDialog = new FolderBrowserDialog();
-            var result = folderDialog.ShowDialog();
+            return _ShowFolderDialogOrFileDialogAndGetPath(new FolderBrowserDialog());
+        }
+
+        private string _ShowFolderDialogOrFileDialogAndGetPath(CommonDialog dialog)
+        {
+            var result = dialog.ShowDialog();
 
             switch (result)
             {
                 case DialogResult.OK:
-                    return folderDialog.SelectedPath;
+                    return dialog is FolderBrowserDialog
+                        ? ((FolderBrowserDialog) dialog).SelectedPath
+                        : ((OpenFileDialog) dialog).FileName;
                 case DialogResult.Cancel:
                     return null;
             }
@@ -143,13 +161,20 @@ namespace WindowsFormsApplication1
 
         private void _SaveConfigurationOnExit()
         {          
-           _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList());          
+           _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(), UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));          
         }
 
         private void _AddItemsToCheckedListFromConfigurationFile(string directoryPath)
         {
+            programDownloadList.Items.Clear();
             var programsList=_appConfigurationService.OpenConfiguration(directoryPath);
 
+            if (programsList == null)
+            {
+                MessageBox.Show(Constants.FileNotFoundWarningMessage);
+                return;
+            }
+           
             foreach (var program in programsList)
             {
                 programDownloadList.Items.Add(program);

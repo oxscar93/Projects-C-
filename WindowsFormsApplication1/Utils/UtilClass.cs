@@ -76,6 +76,11 @@ namespace WindowsFormsApplication1.Utils
 
             return programList;
         }
+
+        public static string FormatDirectoryPathAndAddFileToPath(string directoryPath, string fileToAdd)
+        {
+            return directoryPath + Constants.DoubleBars + fileToAdd;
+        }
     }
 }
 

@@ -43,7 +43,7 @@
             this.downloadLinkRequiredChar = new System.Windows.Forms.Label();
             this.downloadProgressBar = new System.Windows.Forms.ProgressBar();
             this.progressLbl = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.openConfigurationBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // exitAppBtn
@@ -188,21 +188,22 @@
             this.progressLbl.TabIndex = 14;
             this.progressLbl.Text = "No files to download";
             // 
-            // button1
+            // openConfigurationBtn
             // 
-            this.button1.Location = new System.Drawing.Point(243, 293);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Open Configuration";
-            this.button1.UseVisualStyleBackColor = true;
+            this.openConfigurationBtn.Location = new System.Drawing.Point(243, 293);
+            this.openConfigurationBtn.Name = "openConfigurationBtn";
+            this.openConfigurationBtn.Size = new System.Drawing.Size(114, 23);
+            this.openConfigurationBtn.TabIndex = 15;
+            this.openConfigurationBtn.Text = "Open Configuration";
+            this.openConfigurationBtn.UseVisualStyleBackColor = true;
+            this.openConfigurationBtn.Click += new System.EventHandler(this.openConfigurationBtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 377);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.openConfigurationBtn);
             this.Controls.Add(this.progressLbl);
             this.Controls.Add(this.downloadProgressBar);
             this.Controls.Add(this.downloadLinkRequiredChar);
@@ -246,7 +247,7 @@
         private System.Windows.Forms.Label downloadLinkRequiredChar;
         private System.Windows.Forms.ProgressBar downloadProgressBar;
         private System.Windows.Forms.Label progressLbl;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button openConfigurationBtn;
     }
 }
 

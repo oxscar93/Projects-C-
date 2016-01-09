@@ -22,5 +22,9 @@ namespace WindowsFormsApplication1.Utils
         public static string CloseKeyConfigurationFormat = "}";
         public static string SingleBarVertical = "|";
         public static string Comma = ",";
+        public static string SingleBarInverted= @"\";
+        public static string FileNotFoundWarningMessage =
+            "Warning: Configuration file not found. A new configuration file will be created";
+        public static string ConfigurationFile = "Configuration.txt";
     }
 }
