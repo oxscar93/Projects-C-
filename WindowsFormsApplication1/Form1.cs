@@ -39,7 +39,8 @@ namespace WindowsFormsApplication1
 
         private void exitAppBtn_Click(object sender, EventArgs e)
         {
-            _SaveConfigurationOnExit();
+            _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(), 
+                UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));
             Application.Exit();
         }
 
@@ -99,7 +100,20 @@ namespace WindowsFormsApplication1
 
         private void saveConfigurationBtn_Click(object sender, EventArgs e)
         {
-            //TODO : implement save configuration on specific directory
+            var saveDialog = new SaveFileDialog {OverwritePrompt = true};
+
+            var directoryPathAndFile = _ShowFolderDialogOrFileDialogAndGetPath(saveDialog);
+           
+            if (directoryPathAndFile != null)
+            {
+                var fileToSaveData =
+                   UtilClass.ParseFileFromDownloadLink(directoryPathAndFile.Replace(Constants.DoubleBars,
+                   Constants.SingleBar));
+
+                _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(),
+                   UtilClass.FormatDirectoryPathAndAddFileToPath(directoryPathAndFile.Replace(Constants.DoubleBars + fileToSaveData, string.Empty), 
+                   fileToSaveData));
+            }     
         }
 
         private void openConfigurationBtn_Click(object sender, EventArgs e)
@@ -135,15 +149,13 @@ namespace WindowsFormsApplication1
         }
 
         private string _ShowFolderDialogOrFileDialogAndGetPath(CommonDialog dialog)
-        {
-            var result = dialog.ShowDialog();
-
-            switch (result)
+        {       
+            switch (dialog.ShowDialog())
             {
                 case DialogResult.OK:
                     return dialog is FolderBrowserDialog
                         ? ((FolderBrowserDialog) dialog).SelectedPath
-                        : ((OpenFileDialog) dialog).FileName;
+                        : ((FileDialog) dialog).FileName;
                 case DialogResult.Cancel:
                     return null;
             }
@@ -157,11 +169,6 @@ namespace WindowsFormsApplication1
             {
                 checkedListBox.Items.Remove(checkedListBox.CheckedItems[0]);
             }
-        }
-
-        private void _SaveConfigurationOnExit()
-        {          
-           _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(), UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));          
         }
 
         private void _AddItemsToCheckedListFromConfigurationFile(string directoryPath)
@@ -181,6 +188,11 @@ namespace WindowsFormsApplication1
             }
 
             programDownloadList.Refresh();
+        }
+
+        private void stopDownloadingBtn_Click(object sender, EventArgs e)
+        {
+            _webClientService.StopDownload();
         }
     }
 }

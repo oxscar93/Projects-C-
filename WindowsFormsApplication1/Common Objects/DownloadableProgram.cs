@@ -27,6 +27,12 @@ namespace WindowsFormsApplication1.Common_Objects
             }
         }
 
+        public void ChangeStatusForStoppedDownload()
+        {
+            ProgramName = ProgramName.Replace(IsDownloading ?
+               Constants.StatusDownloading : Constants.StatusFinished, Constants.DownloadStopStatusForDownloadableProgram);
+        }
+
         public void ChangeStatusOnErrorIsRaised()
         {
             ProgramName = ProgramName.Replace(IsDownloading ? 

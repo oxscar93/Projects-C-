@@ -44,11 +44,12 @@
             this.downloadProgressBar = new System.Windows.Forms.ProgressBar();
             this.progressLbl = new System.Windows.Forms.Label();
             this.openConfigurationBtn = new System.Windows.Forms.Button();
+            this.stopDownloadingBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // exitAppBtn
             // 
-            this.exitAppBtn.Location = new System.Drawing.Point(401, 293);
+            this.exitAppBtn.Location = new System.Drawing.Point(401, 378);
             this.exitAppBtn.Name = "exitAppBtn";
             this.exitAppBtn.Size = new System.Drawing.Size(75, 23);
             this.exitAppBtn.TabIndex = 0;
@@ -198,11 +199,22 @@
             this.openConfigurationBtn.UseVisualStyleBackColor = true;
             this.openConfigurationBtn.Click += new System.EventHandler(this.openConfigurationBtn_Click);
             // 
+            // stopDownloadingBtn
+            // 
+            this.stopDownloadingBtn.Location = new System.Drawing.Point(16, 378);
+            this.stopDownloadingBtn.Name = "stopDownloadingBtn";
+            this.stopDownloadingBtn.Size = new System.Drawing.Size(75, 23);
+            this.stopDownloadingBtn.TabIndex = 16;
+            this.stopDownloadingBtn.Text = "Stop";
+            this.stopDownloadingBtn.UseVisualStyleBackColor = true;
+            this.stopDownloadingBtn.Click += new System.EventHandler(this.stopDownloadingBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 377);
+            this.ClientSize = new System.Drawing.Size(488, 413);
+            this.Controls.Add(this.stopDownloadingBtn);
             this.Controls.Add(this.openConfigurationBtn);
             this.Controls.Add(this.progressLbl);
             this.Controls.Add(this.downloadProgressBar);
@@ -248,6 +260,7 @@
         private System.Windows.Forms.ProgressBar downloadProgressBar;
         private System.Windows.Forms.Label progressLbl;
         private System.Windows.Forms.Button openConfigurationBtn;
+        private System.Windows.Forms.Button stopDownloadingBtn;
     }
 }
 

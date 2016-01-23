@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -16,8 +17,8 @@ namespace WindowsFormsApplication1.Services
         private readonly WebClient _webClient;
         private ProgressBar _downloadProgressBar;
         private Label _downloadProgressLabel;
-        private Queue<DownloadableProgram>_downloadLinks;
-        private string _directoryPath;
+        private Queue<DownloadableProgram>_downloadablePrograms;
+        private string _currentDirectoryPath;
         private DownloadableProgram _currentProgramInDownloading;
         private CheckedListBox _downloadableProgramsCheckedList;
         
@@ -26,7 +27,7 @@ namespace WindowsFormsApplication1.Services
             _webClient = webClient;
             _downloadProgressBar = null;
             _downloadProgressLabel = null;
-            _downloadLinks = null;
+            _downloadablePrograms = null;
             _currentProgramInDownloading = null;
             _downloadableProgramsCheckedList = null;
         }
@@ -46,9 +47,18 @@ namespace WindowsFormsApplication1.Services
 
         public void DownloadFilesOnSpecificDirectory(string directoryPath)
         {
-            _downloadLinks = UtilClass.GetProgramsQueueFromCheckedListControl(_downloadableProgramsCheckedList.CheckedItems);
-            _directoryPath = directoryPath;
+            _downloadablePrograms = UtilClass.GetProgramsQueueFromCheckedListControl(_downloadableProgramsCheckedList.CheckedItems);
+            _currentDirectoryPath = directoryPath;
             _DownloadFile();
+        }
+
+        public void StopDownload()
+        {
+            _webClient.CancelAsync();
+            _downloadProgressBar.Value = 0;
+            _downloadProgressLabel.Text = Constants.DownloadStopStatus;
+            _downloadProgressBar.Refresh();
+            _currentProgramInDownloading.ChangeStatusForStoppedDownload();
         }
 
         public void RegistryDownloadProgressBar(ProgressBar downloadProgressBar)
@@ -81,24 +91,29 @@ namespace WindowsFormsApplication1.Services
             {
                 _currentProgramInDownloading.ChangeStatusOnErrorIsRaised();
                 MessageBox.Show(e.Error.Message);
+                _downloadablePrograms.Clear();
             }
 
             if (e.Cancelled)
             {
-                //TODO: handle cancelled scenario
+                _webClient.Dispose();
+                File.Delete(_currentDirectoryPath);
+                _downloadablePrograms.Clear();
             }
 
             _ChangeStatusForCurrentProgramInDownloadingStatus(false);
 
-            if (_downloadLinks.Count <= 0) return;         
+            if (_downloadablePrograms.Count <= 0) return;         
             _DownloadFile();
         }
 
         private void _DownloadFile()
         {
-            _currentProgramInDownloading =  _downloadLinks.Dequeue();
-            DownloadFilesOnSpecificDirectory(_currentProgramInDownloading.DownloadLink, 
-                UtilClass.CreateDirectoryPathWithProgramFile(_directoryPath, _currentProgramInDownloading.DownloadLink));
+            _currentProgramInDownloading =  _downloadablePrograms.Dequeue();
+            _currentDirectoryPath = UtilClass.CreateDirectoryPathWithProgramFile(_currentDirectoryPath,
+                _currentProgramInDownloading.DownloadLink);
+
+            DownloadFilesOnSpecificDirectory(_currentProgramInDownloading.DownloadLink, _currentDirectoryPath);
         }
 
         private void _ChangeStatusForCurrentProgramInDownloadingStatus(bool condition)

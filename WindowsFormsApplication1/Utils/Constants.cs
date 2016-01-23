@@ -26,5 +26,7 @@ namespace WindowsFormsApplication1.Utils
         public static string FileNotFoundWarningMessage =
             "Warning: Configuration file not found. A new configuration file will be created";
         public static string ConfigurationFile = "Configuration.txt";
+        public static string DownloadStopStatus = "Stopped";
+        public static string DownloadStopStatusForDownloadableProgram = "(Stopped)";
     }
 }
