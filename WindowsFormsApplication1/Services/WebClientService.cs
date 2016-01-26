@@ -34,12 +34,12 @@ namespace WindowsFormsApplication1.Services
 
         public void DownloadFilesOnSpecificDirectory(string downloadLink, string directoryPath)
         {
-            _ChangeStatusForCurrentProgramInDownloadingStatus(true);
+            _ChangeStatusForCurrentProgramInDownloadingStatus(Constants.StatusDownloading);
 
             using (var client = _webClient)
             {
                 client.DownloadProgressChanged += _WebClient_DownloadProgressChanged;
-                client.DownloadFileCompleted += client_DownloadFileCompleted;
+                client.DownloadFileCompleted += webClient_OnFinish;
                 client.DownloadFileAsync(new Uri(downloadLink),
                     directoryPath);
             }
@@ -57,8 +57,6 @@ namespace WindowsFormsApplication1.Services
             _webClient.CancelAsync();
             _downloadProgressBar.Value = 0;
             _downloadProgressLabel.Text = Constants.DownloadStopStatus;
-            _downloadProgressBar.Refresh();
-            _currentProgramInDownloading.ChangeStatusForStoppedDownload();
         }
 
         public void RegistryDownloadProgressBar(ProgressBar downloadProgressBar)
@@ -85,23 +83,27 @@ namespace WindowsFormsApplication1.Services
                 : Constants.DownloadFinished;
         }
 
-        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private void webClient_OnFinish(object sender, AsyncCompletedEventArgs e)
         {
+            var newStatus = Constants.StatusFinished;
+            _webClient.Dispose();
+
             if (e.Error != null)
             {
-                _currentProgramInDownloading.ChangeStatusOnErrorIsRaised();
+                newStatus = Constants.StatusError;
                 MessageBox.Show(e.Error.Message);
                 _downloadablePrograms.Clear();
             }
 
             if (e.Cancelled)
             {
-                _webClient.Dispose();
+                newStatus = Constants.DownloadStopStatusForDownloadableProgram;
+                
                 File.Delete(_currentDirectoryPath);
-                _downloadablePrograms.Clear();
+                _downloadablePrograms.Clear();           
             }
-
-            _ChangeStatusForCurrentProgramInDownloadingStatus(false);
+     
+            _ChangeStatusForCurrentProgramInDownloadingStatus(newStatus);
 
             if (_downloadablePrograms.Count <= 0) return;         
             _DownloadFile();
@@ -116,9 +118,9 @@ namespace WindowsFormsApplication1.Services
             DownloadFilesOnSpecificDirectory(_currentProgramInDownloading.DownloadLink, _currentDirectoryPath);
         }
 
-        private void _ChangeStatusForCurrentProgramInDownloadingStatus(bool condition)
+        private void _ChangeStatusForCurrentProgramInDownloadingStatus(string status)
         {
-            _currentProgramInDownloading.ChangeDownloadStatus(condition);
+            _currentProgramInDownloading.ChangeDownloadStatus(status);
             _downloadableProgramsCheckedList.Refresh();
         }
     }

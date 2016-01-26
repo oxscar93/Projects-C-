@@ -201,6 +201,7 @@
             // 
             // stopDownloadingBtn
             // 
+            this.stopDownloadingBtn.Enabled = false;
             this.stopDownloadingBtn.Location = new System.Drawing.Point(16, 378);
             this.stopDownloadingBtn.Name = "stopDownloadingBtn";
             this.stopDownloadingBtn.Size = new System.Drawing.Size(75, 23);

@@ -10,34 +10,18 @@ namespace WindowsFormsApplication1.Common_Objects
     public class DownloadableProgram
     {
         public string ProgramName { get; set; }
+        public string ProgramNameUnmodified { get; set; }
         public string DownloadLink { get; set; }
-        public bool IsDownloading { get; set; }
+       
       
-        public void ChangeDownloadStatus(bool inProgress)
+        public void ChangeDownloadStatus(string status)
         {
-            if (inProgress)
-            {
-                ProgramName = ProgramName + Constants.EmptySpace + Constants.StatusDownloading;
-                IsDownloading = true;
-            }
-            else
-            {
-                ProgramName = ProgramName.Replace(Constants.StatusDownloading, Constants.StatusFinished);
-                IsDownloading = false;
-            }
+            ProgramName = ProgramNameUnmodified;
+            ProgramName = ProgramName + Constants.EmptySpace + status;
         }
 
-        public void ChangeStatusForStoppedDownload()
-        {
-            ProgramName = ProgramName.Replace(IsDownloading ?
-               Constants.StatusDownloading : Constants.StatusFinished, Constants.DownloadStopStatusForDownloadableProgram);
-        }
-
-        public void ChangeStatusOnErrorIsRaised()
-        {
-            ProgramName = ProgramName.Replace(IsDownloading ? 
-                Constants.StatusDownloading : Constants.StatusFinished, Constants.StatusError);
-        }
+        
+     
 
         //TODO: method to execute a program
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using WindowsFormsApplication1.Common_Objects;
 using WindowsFormsApplication1.Services;
 using WindowsFormsApplication1.Utils;
@@ -53,6 +54,7 @@ namespace WindowsFormsApplication1
             programDownloadList.Items.Add(new DownloadableProgram
             {
                 ProgramName = programNameTxt.Text,
+                ProgramNameUnmodified = programNameTxt.Text,
                 DownloadLink = downloadLinkTxt.Text
             });
 
@@ -67,7 +69,7 @@ namespace WindowsFormsApplication1
             {
                 return;
             }
-
+            stopDownloadingBtn.Enabled = true;
             _webClientService.DownloadFilesOnSpecificDirectory(dialogResult);
         }
 
@@ -193,6 +195,7 @@ namespace WindowsFormsApplication1
         private void stopDownloadingBtn_Click(object sender, EventArgs e)
         {
             _webClientService.StopDownload();
+            stopDownloadingBtn.Enabled = false;
         }
     }
 }
