@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1.Common_Objects;
 using Newtonsoft.Json;
+using Quarks.IEnumerableExtensions;
 
 namespace WindowsFormsApplication1.Utils
 {
@@ -40,14 +41,12 @@ namespace WindowsFormsApplication1.Utils
 
         public static Queue<DownloadableProgram> GetProgramsQueueFromCheckedListControl(CheckedListBox.CheckedItemCollection items)
         {
-            var downloadLinks = new Queue<DownloadableProgram>();
+            var downloadLinksResult = new Queue<DownloadableProgram>();
+            var downloadLinks = items.Cast<DownloadableProgram>();
 
-            foreach (var downloadableProgram in items.Cast<DownloadableProgram>())
-            {
-                downloadLinks.Enqueue(downloadableProgram);
-            }
-
-            return downloadLinks;
+            downloadLinks.ForEach(dl => downloadLinksResult.Enqueue(dl));
+     
+            return downloadLinksResult;
         }
   
         public static string ConvertProgramListToStringConfigurationFormat(IList<DownloadableProgram> programList)

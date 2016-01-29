@@ -54,9 +54,7 @@ namespace WindowsFormsApplication1.Services
 
         public void StopDownload()
         {
-            _webClient.CancelAsync();
-            _downloadProgressBar.Value = 0;
-            _downloadProgressLabel.Text = Constants.DownloadStopStatus;
+            _webClient.CancelAsync();       
         }
 
         public void RegistryDownloadProgressBar(ProgressBar downloadProgressBar)
@@ -98,7 +96,10 @@ namespace WindowsFormsApplication1.Services
             if (e.Cancelled)
             {
                 newStatus = Constants.DownloadStopStatusForDownloadableProgram;
-                
+
+                _downloadProgressBar.Value = 0;
+                _downloadProgressLabel.Text = Constants.DownloadStopStatus;
+
                 File.Delete(_currentDirectoryPath);
                 _downloadablePrograms.Clear();           
             }
@@ -112,10 +113,10 @@ namespace WindowsFormsApplication1.Services
         private void _DownloadFile()
         {
             _currentProgramInDownloading =  _downloadablePrograms.Dequeue();
-            _currentDirectoryPath = UtilClass.CreateDirectoryPathWithProgramFile(_currentDirectoryPath,
+            var currentDirectoryPathAndCurrentFile = UtilClass.CreateDirectoryPathWithProgramFile(_currentDirectoryPath,
                 _currentProgramInDownloading.DownloadLink);
 
-            DownloadFilesOnSpecificDirectory(_currentProgramInDownloading.DownloadLink, _currentDirectoryPath);
+            DownloadFilesOnSpecificDirectory(_currentProgramInDownloading.DownloadLink, currentDirectoryPathAndCurrentFile);
         }
 
         private void _ChangeStatusForCurrentProgramInDownloadingStatus(string status)

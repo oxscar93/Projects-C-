@@ -17,3 +17,7 @@ C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\Windo
 C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
 C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\EntityFramework.dll
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\EntityFramework.xml
+C:\Users\Maria\Source\Repos\Projects-C-\WindowsFormsApplication1\bin\Debug\EntityFramework.SqlServer.xml

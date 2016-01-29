@@ -11,6 +11,7 @@ using System.Windows.Forms.VisualStyles;
 using WindowsFormsApplication1.Common_Objects;
 using WindowsFormsApplication1.Services;
 using WindowsFormsApplication1.Utils;
+using Quarks.IEnumerableExtensions;
 
 
 namespace WindowsFormsApplication1
@@ -184,11 +185,7 @@ namespace WindowsFormsApplication1
                 return;
             }
            
-            foreach (var program in programsList)
-            {
-                programDownloadList.Items.Add(program);
-            }
-
+            programsList.ForEach(program => programDownloadList.Items.Add(program));
             programDownloadList.Refresh();
         }
 
