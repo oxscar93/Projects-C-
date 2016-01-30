@@ -60,6 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common Objects\DownloadableProgram.cs" />
+    <Compile Include="Decisions\AbstractDecision.cs" />
+    <Compile Include="Decisions\CancelledDownloadDecisionForWebClient.cs" />
+    <Compile Include="Decisions\DecisionArgs.cs" />
+    <Compile Include="Decisions\DecisionsArgsBuilder.cs" />
+    <Compile Include="Decisions\ExceptionDecisionForWebClient.cs" />
     <Compile Include="Quarks\IEnumerableExtensions\ForEach.cs" />
     <Compile Include="Services\WebClientService.cs" />
     <Compile Include="Form1.cs">
@@ -73,6 +78,7 @@
     <Compile Include="Services\AppConfigurationService.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\UtilClass.cs" />
+    <Compile Include="Decisions\DecisionsFactory.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

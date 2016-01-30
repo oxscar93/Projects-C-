@@ -36,13 +36,21 @@ namespace WindowsFormsApplication1.Services
         {
             _ChangeStatusForCurrentProgramInDownloadingStatus(Constants.StatusDownloading);
 
-            using (var client = _webClient)
+            try
             {
-                client.DownloadProgressChanged += _WebClient_DownloadProgressChanged;
-                client.DownloadFileCompleted += webClient_OnFinish;
-                client.DownloadFileAsync(new Uri(downloadLink),
-                    directoryPath);
+                using (var client = _webClient)
+                {
+                    client.DownloadProgressChanged += _WebClient_DownloadProgressChanged;
+                    client.DownloadFileCompleted += webClient_OnFinish;
+                    client.DownloadFileAsync(new Uri(downloadLink),
+                        directoryPath);
+                }
             }
+            catch (Exception e)
+            {
+                
+                throw e;
+            }        
         }
 
         public void DownloadFilesOnSpecificDirectory(string directoryPath)

@@ -28,5 +28,7 @@ namespace WindowsFormsApplication1.Utils
         public static string ConfigurationFile = "Configuration.txt";
         public static string DownloadStopStatus = "Stopped";
         public static string DownloadStopStatusForDownloadableProgram = "(Stopped)";
+        public static string CancelledDownloadDecisionForWebClient = "CancelledDownloadDecisionForWebClient";
+        public static string ExceptionDecisionForWebClient = "ExceptionDecisionForWebClient";
     }
 }
