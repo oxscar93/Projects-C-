@@ -30,5 +30,8 @@ namespace WindowsFormsApplication1.Utils
         public static string DownloadStopStatusForDownloadableProgram = "(Stopped)";
         public static string CancelledDownloadDecisionForWebClient = "CancelledDownloadDecisionForWebClient";
         public static string ExceptionDecisionForWebClient = "ExceptionDecisionForWebClient";
+        public static string ErrorMsgInvalidLink = "The download link is incorrect, please, check it.";
+        public static string WarningMsgForDownload = "Do you want stop the download?";
+        public static string MessageBoxWarningTitle = "Warning";
     }
 }

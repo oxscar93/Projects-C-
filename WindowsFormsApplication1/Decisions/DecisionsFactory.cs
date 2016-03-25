@@ -15,7 +15,9 @@ namespace WindowsFormsApplication1.Decisions
             _decisions = new List<AbstractDecision>
             {
                 new ExceptionDecisionForWebClient(),
-                new CancelledDownloadDecisionForWebClient()
+                new CancelledDownloadDecisionForWebClient(),
+                new FinishedDecisionForWebClient(),
+                new EventErrorDecisionForWebClient()
             };
         }
 

@@ -10,28 +10,28 @@ using WindowsFormsApplication1.Utils;
 
 namespace WindowsFormsApplication1.Services
 {
-    public class AppConfigurationService
+    public class AppFileService
     {
-        public void SaveConfiguration(IList<DownloadableProgram> programList, string directoryPath)
+        public void SaveFile(IList<DownloadableProgram> programList, string directoryPath)
         {
-            var configurationString = UtilClass.ConvertProgramListToStringConfigurationFormat(programList);
+            var fileString = UtilClass.ConvertProgramListToStringConfigurationFormat(programList);
       
             using (var outputFile = new StreamWriter(directoryPath))
             {
-                    outputFile.WriteLine(configurationString);
+                    outputFile.WriteLine(fileString);
             }
         }
 
-        public IList<DownloadableProgram> OpenConfiguration(string directoryPath)
+        public string OpenFile(string directoryPath)
         {
-            var configurationString = string.Empty;
+            var fileString = string.Empty;
             try
             {
                 using (var reader = new StreamReader(directoryPath))
                 {
-                    configurationString = reader.ReadLine();
+                    fileString = reader.ReadLine();
                 }
-                return UtilClass.GetProgramsFromConfigurationString(configurationString);
+                return fileString;
             }
             catch (FileNotFoundException e)
             {

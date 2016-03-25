@@ -8,23 +8,22 @@ using WindowsFormsApplication1.Utils;
 
 namespace WindowsFormsApplication1.Decisions
 {
-    public class ExceptionDecisionForWebClient : AbstractDecision
+    public class EventErrorDecisionForWebClient : AbstractDecision
     {
         public override string TriggerDecision(DecisionArgs args)
         {
-            MessageBox.Show(args.Exception.Message);
-            args.Button.Enabled = false;
+            MessageBox.Show(Constants.ErrorMsgInvalidLink);
             return Constants.StatusError;
         }
-
+        
         public override bool IsDecisionBasedByNm(string decisionNm)
         {
-            return decisionNm == Constants.ExceptionDecisionForWebClient;
+            return false; //TODO agregate name on constants
         }
 
         public override bool IsDecisionBasedByArgs(DecisionArgs args)
         {
-            return args.Exception != null;
+            return args.EventArgsOfWebClient?.Error != null;
         }
     }
 }

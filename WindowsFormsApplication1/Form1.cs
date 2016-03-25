@@ -19,31 +19,36 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private readonly WebClientService _webClientService;
-        private readonly AppConfigurationService _appConfigurationService;
+        private readonly AppFileService _appFileService;
         private readonly string _appCurrentDirectory;
 
-        public Form1(WebClientService webClientService, AppConfigurationService appConfigurationService)
+        public Form1(WebClientService webClientService, AppFileService appFileService)
         {
             InitializeComponent();
             _webClientService = webClientService;
-            _appConfigurationService = appConfigurationService;
+            _appFileService = appFileService;
             _appCurrentDirectory = Application.StartupPath;
-            _webClientService.RegistryDownloadProgressBar(downloadProgressBar);
-            _webClientService.RegistryDownloadProgressLabel(progressLbl);
-            _webClientService.RegistryDownloadableProgramsCheckedList(programDownloadList);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             programDownloadList.DisplayMember = Constants.DisplayMemberProgramName;
-            _AddItemsToCheckedListFromConfigurationFile(UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));         
+            _AddItemsToCheckedListFromConfigurationFile(UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));
+            _webClientService.RegistryDownloadProgressBar(downloadProgressBar);
+            _webClientService.RegistryDownloadProgressLabel(progressLbl);
+            _webClientService.RegistryDownloadableProgramsCheckedList(programDownloadList);
+            _webClientService.RegistryStopButton(stopDownloadingBtn);
         }
 
         private void exitAppBtn_Click(object sender, EventArgs e)
         {
-            _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(), 
-                UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));
-            Application.Exit();
+            if (_ShouldExitApp())
+            {
+                _webClientService.StopDownload();
+                _appFileService.SaveFile(programDownloadList.Items.Cast<DownloadableProgram>().ToList(),
+                    UtilClass.FormatDirectoryPathAndAddFileToPath(_appCurrentDirectory, Constants.ConfigurationFile));
+                Application.Exit();
+            }           
         }
 
         private void addProgramBtn_Click(object sender, EventArgs e)
@@ -113,7 +118,7 @@ namespace WindowsFormsApplication1
                    UtilClass.ParseFileFromDownloadLink(directoryPathAndFile.Replace(Constants.DoubleBars,
                    Constants.SingleBar));
 
-                _appConfigurationService.SaveConfiguration(programDownloadList.Items.Cast<DownloadableProgram>().ToList(),
+                _appFileService.SaveFile(programDownloadList.Items.Cast<DownloadableProgram>().ToList(),
                    UtilClass.FormatDirectoryPathAndAddFileToPath(directoryPathAndFile.Replace(Constants.DoubleBars + fileToSaveData, string.Empty), 
                    fileToSaveData));
             }     
@@ -144,7 +149,7 @@ namespace WindowsFormsApplication1
         {
             if (programDownloadList.CheckedItems.Count == 0)
             {
-                MessageBox.Show(Constants.DialogWarningMessage);
+                MessageUtilClass.ShowMessage(Constants.DialogWarningMessage);
                 return null; 
             }
 
@@ -177,11 +182,12 @@ namespace WindowsFormsApplication1
         private void _AddItemsToCheckedListFromConfigurationFile(string directoryPath)
         {
             programDownloadList.Items.Clear();
-            var programsList=_appConfigurationService.OpenConfiguration(directoryPath);
+            var programsList= UtilClass.GetProgramsFromConfigurationString
+                (_appFileService.OpenFile(directoryPath));
 
             if (programsList == null)
             {
-                MessageBox.Show(Constants.FileNotFoundWarningMessage);
+                MessageUtilClass.ShowMessage(Constants.FileNotFoundWarningMessage);
                 return;
             }
            
@@ -192,7 +198,13 @@ namespace WindowsFormsApplication1
         private void stopDownloadingBtn_Click(object sender, EventArgs e)
         {
             _webClientService.StopDownload();
-            stopDownloadingBtn.Enabled = false;
+        }
+
+        private bool _ShouldExitApp()
+        {
+            return !(_webClientService.HasWebClientBusy()
+                   && !MessageUtilClass.ShowConditionalMessage(Constants.WarningMsgForDownload,
+                       Constants.MessageBoxWarningTitle));
         }
     }
 }

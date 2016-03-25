@@ -15,6 +15,7 @@ namespace WindowsFormsApplication1.Decisions
        public AsyncCompletedEventArgs EventArgsOfWebClient { get; set; }
        public ProgressBar ProgressBar { get; set; }
        public Label Label { get; set; }
+       public Button Button { get; set;}
        public string DirectoryPath { get; set; }
        public Queue<DownloadableProgram> DownloadablePrograms { get; set; }
     }

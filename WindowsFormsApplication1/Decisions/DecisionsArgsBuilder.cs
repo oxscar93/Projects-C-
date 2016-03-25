@@ -11,11 +11,12 @@ namespace WindowsFormsApplication1.Decisions
 {
     public class DecisionsArgsBuilder
     {
-        public DecisionArgs Build(Exception e)
+        public DecisionArgs Build(Exception e, Button button)
         {
             return new DecisionArgs
             {
-                Exception = e
+                Exception = e,
+                Button = button
             };
         }
 

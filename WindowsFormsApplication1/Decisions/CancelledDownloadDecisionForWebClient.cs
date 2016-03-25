@@ -28,9 +28,7 @@ namespace WindowsFormsApplication1.Decisions
 
         public override bool IsDecisionBasedByArgs(DecisionArgs args)
         {
-            return args.EventArgsOfWebClient.Cancelled;
+            return args.EventArgsOfWebClient != null && args.EventArgsOfWebClient.Cancelled;
         }
-
-
     }
 }

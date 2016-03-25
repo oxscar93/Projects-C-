@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication1.Common_Objects;
+using WindowsFormsApplication1.Decisions;
 using WindowsFormsApplication1.Utils;
 
 namespace WindowsFormsApplication1.Services
@@ -21,15 +22,12 @@ namespace WindowsFormsApplication1.Services
         private string _currentDirectoryPath;
         private DownloadableProgram _currentProgramInDownloading;
         private CheckedListBox _downloadableProgramsCheckedList;
+        private Button _stopButton;
+        public WebClientServiceArgs WebClientServiceArgs { get; set; }
         
         public WebClientService(WebClient webClient)
         {
             _webClient = webClient;
-            _downloadProgressBar = null;
-            _downloadProgressLabel = null;
-            _downloadablePrograms = null;
-            _currentProgramInDownloading = null;
-            _downloadableProgramsCheckedList = null;
         }
 
         public void DownloadFilesOnSpecificDirectory(string downloadLink, string directoryPath)
@@ -48,8 +46,10 @@ namespace WindowsFormsApplication1.Services
             }
             catch (Exception e)
             {
-                
-                throw e;
+                var decisionsArgs = new DecisionsArgsBuilder().Build(e, _stopButton);
+                var status= new DecisionsFactory().GetDecisionBasedOnArgs(decisionsArgs)
+                    .TriggerDecision(decisionsArgs);
+                _ChangeStatusForCurrentProgramInDownloadingStatus(status);
             }        
         }
 
@@ -62,7 +62,8 @@ namespace WindowsFormsApplication1.Services
 
         public void StopDownload()
         {
-            _webClient.CancelAsync();       
+            _webClient.CancelAsync();
+            _stopButton.Enabled = false;
         }
 
         public void RegistryDownloadProgressBar(ProgressBar downloadProgressBar)
@@ -80,6 +81,16 @@ namespace WindowsFormsApplication1.Services
             _downloadableProgramsCheckedList = downloadableProgrmsCheckedList;
         }
 
+        public void RegistryStopButton(Button button)
+        {
+            _stopButton = button;
+        }
+
+        public bool HasWebClientBusy()
+        {
+            return _webClient.IsBusy;
+        }
+          
         private void _WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             _downloadProgressBar.Value = e.ProgressPercentage;
@@ -91,27 +102,15 @@ namespace WindowsFormsApplication1.Services
 
         private void webClient_OnFinish(object sender, AsyncCompletedEventArgs e)
         {
-            var newStatus = Constants.StatusFinished;
+            var decisionsArgsBuilder = new DecisionsArgsBuilder();
+
             _webClient.Dispose();
-
-            if (e.Error != null)
-            {
-                newStatus = Constants.StatusError;
-                MessageBox.Show(e.Error.Message);
-                _downloadablePrograms.Clear();
-            }
-
-            if (e.Cancelled)
-            {
-                newStatus = Constants.DownloadStopStatusForDownloadableProgram;
-
-                _downloadProgressBar.Value = 0;
-                _downloadProgressLabel.Text = Constants.DownloadStopStatus;
-
-                File.Delete(_currentDirectoryPath);
-                _downloadablePrograms.Clear();           
-            }
-     
+           
+            var newStatus = new DecisionsFactory().GetDecisionBasedOnArgs(decisionsArgsBuilder.Build(e))
+                .TriggerDecision(decisionsArgsBuilder
+                .Build(e,_downloadProgressBar, UtilClass.CreateDirectoryPathWithProgramFile(_currentDirectoryPath,
+                _currentProgramInDownloading.DownloadLink),_downloadablePrograms,_downloadProgressLabel));
+       
             _ChangeStatusForCurrentProgramInDownloadingStatus(newStatus);
 
             if (_downloadablePrograms.Count <= 0) return;         

@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using WindowsFormsApplication1.Utils;
 
 namespace WindowsFormsApplication1.Decisions
 {
-    public class ExceptionDecisionForWebClient : AbstractDecision
+    public class FinishedDecisionForWebClient : AbstractDecision
     {
         public override string TriggerDecision(DecisionArgs args)
         {
-            MessageBox.Show(args.Exception.Message);
-            args.Button.Enabled = false;
-            return Constants.StatusError;
+            return Constants.StatusFinished;
         }
 
         public override bool IsDecisionBasedByNm(string decisionNm)
         {
-            return decisionNm == Constants.ExceptionDecisionForWebClient;
+            return true; //TODO agregate constant name
         }
 
         public override bool IsDecisionBasedByArgs(DecisionArgs args)
         {
-            return args.Exception != null;
+            var eventArgsOfWebClient = args.EventArgsOfWebClient;
+
+            return eventArgsOfWebClient != null && !eventArgsOfWebClient.Cancelled && eventArgsOfWebClient.Error == null;
         }
     }
 }
