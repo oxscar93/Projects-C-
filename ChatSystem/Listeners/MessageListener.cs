@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChatSystem.Common;
-using ChatSystem.Factories;
-using ChatSystem.Managers;
-using ChatSystem.Services;
+using ChatSystem.Notificators;
 using ChatSystem.UtilClasses;
 
 namespace ChatSystem.Listeners
@@ -26,18 +19,11 @@ namespace ChatSystem.Listeners
 
         public void Start()
         {
-            TcpListener tcpListener;
-            var ipAddress = IPAddress.Parse("127.0.0.1");
-            try
-            {
-                tcpListener = new TcpListener(ipAddress, 13);
-                tcpListener.Start();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error");
-                return;
-            }
+            var ipAddress = IpProvider.GetLocalIpAddress(AddressFamily.InterNetwork);
+
+            var tcpListener = _InitializeListener(IPAddress.Parse(ipAddress));
+
+            tcpListener.Start();
 
             while (true)
             {
@@ -59,6 +45,21 @@ namespace ChatSystem.Listeners
                 _windowMessageNotificator.UpdateOrCreateWindowIfNeeded(
                     MessageParser.ParseMessageStringToObject(message.ToString()));
             }
-        }       
+        }
+
+        private TcpListener _InitializeListener(IPAddress ipAddress)
+        {
+            try
+            {
+                return new TcpListener(ipAddress, 13);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message + "--- The program will be closed");
+                Environment.Exit(0);             
+            }
+
+            return null;
+        }  
     }
 }

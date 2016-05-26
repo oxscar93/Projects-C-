@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace ChatSystem.Common
 {
     public class ContactMessage
     {
-        public string _message { get; set; }
-        public string _emissorId { get; set; }
-        public string _receiveId { get; set; }
+        //TODO: Refactor setters and getters
+        public string _message;
+        public string _emissorId;
+        public string _receiveId;
+        public string _emissorName;
 
         public ContactMessage()
         {
@@ -48,6 +46,16 @@ namespace ChatSystem.Common
         public string GetReceiveId()
         {
             return _receiveId;
+        }
+
+        public void SetEmissorContactName(string name)
+        {
+            _emissorName = name;
+        }
+
+        public string GetEmissorContactName()
+        {
+            return _emissorName;
         }
     }
 }

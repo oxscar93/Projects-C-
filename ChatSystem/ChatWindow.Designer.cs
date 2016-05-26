@@ -37,8 +37,9 @@
             // 
             this.conversationTxt.Location = new System.Drawing.Point(12, 40);
             this.conversationTxt.Name = "conversationTxt";
+            this.conversationTxt.ReadOnly = true;
             this.conversationTxt.Size = new System.Drawing.Size(539, 239);
-            this.conversationTxt.TabIndex = 0;
+            this.conversationTxt.TabIndex = 1;
             this.conversationTxt.Text = "";
             // 
             // messageTxt
@@ -48,9 +49,11 @@
             this.messageTxt.Size = new System.Drawing.Size(420, 52);
             this.messageTxt.TabIndex = 1;
             this.messageTxt.Text = "";
+            this.messageTxt.TextChanged += new System.EventHandler(this.messageTxt_TextChanged);
             // 
             // sendBtn
             // 
+            this.sendBtn.Enabled = false;
             this.sendBtn.Location = new System.Drawing.Point(439, 307);
             this.sendBtn.Name = "sendBtn";
             this.sendBtn.Size = new System.Drawing.Size(112, 52);

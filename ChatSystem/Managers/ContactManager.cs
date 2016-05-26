@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using ChatSystem.Common;
+using ChatSystem.UtilClasses;
 
 
 namespace ChatSystem.Managers
@@ -25,9 +27,13 @@ namespace ChatSystem.Managers
             return (Contact) _contacts.SelectedItem;
         }
 
-        public Contact SearchContact()
+        public Contact SearchContact(string name)
         {
-            return new Contact(null, "127.0.0.1");
+            var contactsToList = ListParser.ConvertListBoxToListOfContacts(_contacts.Items);
+
+            var contact = contactsToList.FirstOrDefault(c => c.GetName() == name);
+          
+            return contact;
         }
     }
 }

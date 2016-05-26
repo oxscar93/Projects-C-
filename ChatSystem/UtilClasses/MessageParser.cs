@@ -11,11 +11,6 @@ namespace ChatSystem.UtilClasses
 {
     public static class MessageParser
     {
-        public static string ParseMessageToConversationText(string name, string message)
-        {
-            return name + " " + DateTime.Now + ": " + message;
-        }
-
         public static string ParseMessageToSendIt(ContactMessage contactMessage)
         {
             return JsonConvert.SerializeObject(contactMessage);
@@ -24,6 +19,11 @@ namespace ChatSystem.UtilClasses
         public static ContactMessage ParseMessageStringToObject(string message)
         {
             return JsonConvert.DeserializeObject<ContactMessage>(message);
+        }
+
+        public static string CreateConversationMessageForUser(string conversationTxt, string message, string user)
+        {
+            return conversationTxt == string.Empty ? DateTime.Now + " " + user  +  message : Environment.NewLine + Environment.NewLine + DateTime.Now + " "  + user + message;
         }
     }
 }

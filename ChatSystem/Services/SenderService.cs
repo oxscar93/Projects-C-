@@ -11,15 +11,18 @@ namespace ChatSystem.Services
 {
     public class SenderService
     {
-        public bool SendMessage(ContactMessage message, string ipToSend, int portToSend)
+        public bool SendData(string dataToSend, string ipToSend, int portToSend)
         {
-            var messageParsedToSend = MessageParser.ParseMessageToSendIt(message);
-
             try
             {
                 var client = new TcpClient(ipToSend, portToSend);
 
-                var data = Encoding.ASCII.GetBytes(messageParsedToSend);
+                if (!client.Connected)
+                {
+                    client.Connect(ipToSend, portToSend);
+                }
+                
+                var data = Encoding.ASCII.GetBytes(dataToSend);
 
                 var stream = client.GetStream();
 
@@ -27,7 +30,7 @@ namespace ChatSystem.Services
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }                      

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Threading;
 using ChatSystem.Listeners;
 using ChatSystem.Managers;
+using ChatSystem.Notificators;
 using ChatSystem.Services;
 
 namespace ChatSystem

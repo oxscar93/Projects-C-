@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChatSystem.Common;
 using ChatSystem.Factories;
-using ChatSystem.Listeners;
 using ChatSystem.Managers;
+using ChatSystem.Notificators;
 using ChatSystem.Services;
 
 namespace ChatSystem
@@ -34,7 +27,7 @@ namespace ChatSystem
         private void _InitializeObjects()
         {
             _contactManager.RegistryListBox(contactsList);
-            _windowMessageNotificator.SetMainWindow(this);
+            _windowMessageNotificator.SetMainWindow(this);       
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -51,16 +44,20 @@ namespace ChatSystem
         private void contactsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var contactSelected = _contactManager.GetCurrentContactSelected();
-            GetChatWindow(contactSelected).Show(_windowMessageNotificator);
-           
+            GetChatWindow(contactSelected).Show(_windowMessageNotificator);       
         }
 
         public ChatWindow GetChatWindow(Contact contact)
         {
-            var form = WindowsFactory.GetInstance()
+            var chatWindow = WindowsFactory.GetInstance()
                 .GetChatWindow(contact, _senderService);
 
-            return form;
+            return chatWindow;
+        }
+
+        private void ChatSystemMainWindow_Load(object sender, EventArgs e)
+        {
+            contactsList.DisplayMember = "NameUnmodified";
         }
     }
 }

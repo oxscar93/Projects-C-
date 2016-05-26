@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChatSystem.Common;
 using ChatSystem.Managers;
 
-namespace ChatSystem
+namespace ChatSystem.Notificators
 {
-    public class WindowMessageNotificator
+    public class WindowMessageNotificator : AbstractNotificator
     {
-        private IDictionary<string, ChatWindow> _windows;
-        private ContactManager _contactManager;
-        private ChatSystemMainWindow _mainWindow;
-
         public WindowMessageNotificator(ContactManager contactManager)
         {
             _windows = new Dictionary<string, ChatWindow>();
@@ -36,11 +29,11 @@ namespace ChatSystem
         {
             if (contactMessage.GetReceiveId() == null)
             {
-                var contactSearched = _contactManager.SearchContact();
-                var form = _mainWindow.GetChatWindow(contactSearched);
+                var contactSearched = _contactManager.SearchContact(contactMessage.GetEmissorContactName());
+                var chatWindow = _mainWindow.GetChatWindow(contactSearched);
                 
                 _mainWindow.Invoke((MethodInvoker)delegate () {
-                    form.Show(this);
+                    chatWindow.Show(this);
                     _windows.Last().Value.Update(contactMessage);
                 });      
             }

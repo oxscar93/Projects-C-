@@ -96,6 +96,7 @@
             this.MaximizeBox = false;
             this.Name = "ChatSystemMainWindow";
             this.Text = "Chat System";
+            this.Load += new System.EventHandler(this.ChatSystemMainWindow_Load);
             this.ResumeLayout(false);
 
         }
